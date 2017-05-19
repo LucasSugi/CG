@@ -8,7 +8,12 @@ typedef struct control_alien CONTROL_ALIEN;
  * left,right,bottom and top MUST BE the same values of gluOrtho2D
  * nAlien is the amount of alien per LINE
  */
-CONTROL_ALIEN *createAlien(float left,float right,float bottom,float top,int nAlien);	
+void createAlien(float left,float right,float bottom,float top,float xVmin,float xVmax,float yVmin,float yVmax,int nAlien);	
+
+/*
+ * Change the dificulty of game
+ */
+void changeDificulty(int time_move_alien,int time_shoot_alien);
 
 /*
  * Free memory heap
@@ -19,17 +24,6 @@ void destroyAlien();
  * Check if aliens win
  */
 bool alienVictory();
-
-/*
- * Verify if some alien was killed
- * (x,y) is the bullet's coordinates
- */
-bool alienKilled(int , int );
-
-/*
- * Give (x,y) indicating the start of alien shoot
- */
-void alienShoot(int *, int *);
 
 /*
  * Move alien in screen

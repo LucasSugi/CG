@@ -82,4 +82,3 @@ void shotBullet(int value){
 	glutPostRedisplay();
 	glutTimerFunc(10 * bullet.size(), shotBullet, value);
 }
-

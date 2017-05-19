@@ -7,8 +7,7 @@
 GLsizei windowWidth = 700, windowHeight = 500;
 
 // Assigns the Clipping Window
-//GLdouble windowLeft = -1.0f, windowRight = 1.0f, windowBottom = -1.0f, windowTop = 1.0f;
-GLdouble windowLeft = -50.0f, windowRight = 50.0f, windowBottom = -50.0f, windowTop = 50.0f;
+GLdouble windowLeft = -1.0f, windowRight = 1.0f, windowBottom = -1.0f, windowTop = 1.0f;
 
 // Initial position of the spaceShip
 GLfloat shipPosX = 0.0f, shipPosY = 0.0f;
@@ -52,28 +51,6 @@ void reshapeWindow(int width, int height){
 		gluOrtho2D(windowLeft*width/height, windowRight*width/height, windowBottom, windowTop);
 }
 
-/**	Mouse Handling Funcion	   */
-void on_MouseClick(int button, int state, int x, int y){
-
-	GLfloat posX, posY;
-
-	if(state == GLUT_DOWN){
-		if(button == GLUT_LEFT_BUTTON){
-			posX = (GLfloat)((((windowRight - windowLeft) * x)/windowWidth) + windowLeft);
-		       	posY = (GLfloat)((((windowBottom - windowTop) * y)/windowHeight) + windowTop);
-			createBullet(posX, posY, UP);
-		} else if(button == GLUT_RIGHT_BUTTON){
-			posX = (GLfloat)((((windowRight - windowLeft) * x)/windowWidth) + windowLeft);
-		       	posY = (GLfloat)((((windowBottom - windowTop) * y)/windowHeight) + windowTop);
-			createBullet(posX, posY, DOWN);		
-		}
-
-		glutPostRedisplay();
-		glutTimerFunc(10, shotBullet, 1);
-	}
-	
-}
-
 /**	Boot Funcion	*/
 void initializeParameters(){
 	
@@ -86,11 +63,14 @@ void initializeParameters(){
 	
 	// Initializes the clipping window and viewport
 	gluOrtho2D(windowLeft, windowRight, windowBottom, windowTop);
-	//glViewport(0, 0, windowWidth, windowHeight);
+	glViewport(0, 0, windowWidth, windowHeight);
 	
 	setBulletInc(windowHeight);
 	setInitialSpaceShipPosition(shipPosX, shipPosY);
 	setWindowDimensions(windowTop, windowBottom);
+	
+	//Create alien
+	createAlien(windowLeft,windowRight,windowBottom,windowTop,0,0,windowWidth,windowHeight,18);
 }
 
 
@@ -107,22 +87,15 @@ int main(int argc, char *argv[]){
 	// Creates the window
 	glutCreateWindow("S P A C E -- I N V A D E R S");
 
-	//Create alien
-	createAlien(windowLeft,windowRight,windowBottom,windowTop,10);
-	
 	// Defines the rendering function
 	glutDisplayFunc(draw);
 
 	// Defines the resizing function
-	//glutReshapeFunc(reshapeWindow);
-	
-	// Defines the mouse handling function
-	glutMouseFunc(on_MouseClick);
+	glutReshapeFunc(reshapeWindow);
 	
 	glutSpecialFunc(SpecialKeys);
 	glutKeyboardFunc(Keyboard);
 
-	glutTimerFunc(10, shotBullet, 0);
 	glutTimerFunc(10, moveAlien, 0);
 	initializeParameters();
 
@@ -132,4 +105,3 @@ int main(int argc, char *argv[]){
 	// End
 	return 0;
 }
-

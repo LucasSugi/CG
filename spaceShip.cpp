@@ -27,9 +27,10 @@ void Keyboard(unsigned char key, int x, int y){
 	}
 
 	//Leave game
-	if(key == ESC)
+	if(key == ESC){
 		destroyAlien();
 		exit(0);
+	}
 }
 
 /*
