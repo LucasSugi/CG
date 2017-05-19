@@ -16,6 +16,11 @@ void createAlien(float left,float right,float bottom,float top,float xVmin,float
 void changeDificulty(int time_move_alien,int time_shoot_alien);
 
 /*
+ * Verify if user win
+ */
+bool userWin();
+
+/*
  * Free memory heap
  */
 void destroyAlien();

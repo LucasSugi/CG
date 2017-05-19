@@ -277,6 +277,23 @@ bool alienVictory(){
 }
 
 /*
+ * Verify if the user win
+ */
+bool userWin(){
+	
+	int i;	
+	ALIEN *al;
+
+	for(i=0;i<(int)alien->vec->size();i++){
+		al = alien->vec[0][i];
+		if(al->live == true){
+			return false;
+		}
+	}
+	return true;
+}
+
+/*
  * Verify if some alien was killed
  */
 void alienKilled(){
