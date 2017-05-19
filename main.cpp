@@ -100,6 +100,7 @@ int main(int argc, char* argv[])
     glutKeyboardFunc(Keyboard);
 
     glutTimerFunc(10, moveAlien, 0);
+	glutTimerFunc(10, shotBullet, 1);
     initializeParameters();
 
     // Starts the processing and wait user interactions

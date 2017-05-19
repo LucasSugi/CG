@@ -24,7 +24,6 @@ void Keyboard(unsigned char key, int x, int y)
     //Shot missile
     if (key == SPACE) {
         createBullet(cannonPosX, cannonPosY, UP);
-        glutTimerFunc(10, shotBullet, 1);
     }
 
     //Leave game

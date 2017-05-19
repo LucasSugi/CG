@@ -33,7 +33,6 @@ void setWindowDimensions(GLdouble WTop, GLdouble WBottom)
 /** 	Draws the bullets on the screen		*/
 void drawBullets()
 {
-
     if (!bullet.empty()) {
         for (vector<BULLET>::iterator it = bullet.begin(); it != bullet.end(); it++) {
             if (it->visible) {
@@ -50,7 +49,6 @@ void drawBullets()
 /** 	Creates a new bullet and inserts in the bullets vector	 */
 void createBullet(GLfloat x, GLfloat y, GLint direction)
 {
-
     BULLET b;
 
     b.xPos = x;
@@ -64,8 +62,8 @@ void createBullet(GLfloat x, GLfloat y, GLint direction)
 /**	Bullets Timer function	*/
 void shotBullet(int value)
 {
-
     GLfloat v = inc * value;
+
 
     // Moves the bullets
     if (!bullet.empty()) {
@@ -74,16 +72,20 @@ void shotBullet(int value)
                 it->yPos -= v;
                 if (it->yPos <= bottom) {
                     it->visible = false;
+					bullet.erase(it);
+					it--;
                 }
             } else if (it->direction == UP) {
                 it->yPos += v;
                 if (it->yPos >= top) {
                     it->visible = false;
+					bullet.erase(it);
+					it--;
                 }
             }
         }
     }
 
     glutPostRedisplay();
-    glutTimerFunc(10 * bullet.size(), shotBullet, value);
+    glutTimerFunc(10, shotBullet, value);
 }
