@@ -96,13 +96,13 @@ int **readFile(const char *filename){
 /*
  * Initializa one struct that is responsible to control aliens
  */
-CONTROL_ALIEN *createAlien(float left,float right,float bottom,float top,int nAlien){
+void createAlien(float left,float right,float bottom,float top,int nAlien){
 	
 	int i;
 	ALIEN *al;
 	
 	//Create struct
-	CONTROL_ALIEN *alien = (CONTROL_ALIEN*) malloc(sizeof(CONTROL_ALIEN));
+	alien = (CONTROL_ALIEN*) malloc(sizeof(CONTROL_ALIEN));
 	
 	//initialize some variable
 	LEFT = left;
@@ -185,8 +185,6 @@ CONTROL_ALIEN *createAlien(float left,float right,float bottom,float top,int nAl
 		al->yAlien = top;
 		alien->vec->push_back(al);
 	}
-
-	return alien;
 }
 
 /*
@@ -401,78 +399,4 @@ void drawAlien(){
 	}
 
 	glPopMatrix();
-}
-
-
-/**	Boot Funcion	*/
-void initializeParameters(){
-	
-	// Sets the Clear Color to black
-	glClearColor(0.0f, 0.16f, 0.16f, 0.0f);
-	
-	// Initializes the matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	
-	// Initializes the clipping window and viewport
-	gluOrtho2D(-50,50, -50, 50);
-}
-
-void draw(){
-
-	//Changes to the 
-	glMatrixMode(GL_MODELVIEW);
-	//Initialize the transformations matrix
-	glLoadIdentity();
-	
-	// Cleans the screen
-	glClear(GL_COLOR_BUFFER_BIT);
-	
-	drawAlien();
-
-	// Update the screen
-	glutSwapBuffers();
-	glFlush();	
-}
-
-void Keyboard(unsigned char key, int x, int y){
-	
-	if(key == 27){
-		destroyAlien();
-		exit(0);	
-	}
-}
-
-/* MAIN FOR TEST */
-int main(int argc, char *argv[]){
-	
-	//Create aliens
-	alien = createAlien(-50,50,-50,50,10);
-	
-
-
-	// Initialize 
-	glutInit(&argc, argv);	
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	
-	// Assigns the window initial position and size
-	glutInitWindowSize(700, 700);
-	
-	// Creates the window
-	glutCreateWindow("S P A C E -- I N V A D E R S");
-	
-	// Defines the rendering function
-	glutDisplayFunc(draw);
-
-	glutKeyboardFunc(Keyboard);
-	
-	//Movement of aliens
-	glutTimerFunc(10,moveAlien,0);
-
-	initializeParameters();
-
-	// Starts the processing and wait user interactions
-	glutMainLoop();
-
-	return 0;
 }

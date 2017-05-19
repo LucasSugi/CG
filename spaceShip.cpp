@@ -1,5 +1,6 @@
 #include "spaceShip.h"
 #include "bullet.h"
+#include "alien.h"
 
 GLfloat shipX = 0, shipY = 0, cannonPosX, cannonPosY;
 
@@ -27,6 +28,7 @@ void Keyboard(unsigned char key, int x, int y){
 
 	//Leave game
 	if(key == ESC)
+		destroyAlien();
 		exit(0);
 }
 
