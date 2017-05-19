@@ -19,6 +19,9 @@ int INC_Y  = 10;
 //This variable defines how many aliens have per line
 int AMOUNT_ALIEN_ROW;
 
+//This defines how lines of aliens have space invaders
+int LINES_ALIEN = 5;
+
 //This variable define how long is the movement of one alien in horizontal
 int TIME_MOVE_DOWN = 50;
 
@@ -294,26 +297,34 @@ bool alienKilled(int x, int y){
  */
 void alienShoot(int *x, int *y){
 
-	int r,middle;
+	int r,middle,rTemp;
 	int **shape;	
 	ALIEN *al;
 
 	//initialize random seed
 	srand( time(NULL) );
-	
-	//Choice one random alien for shoot
-	r = rand() % (AMOUNT_ALIEN_ROW * 5);
 
-	al = alien->vec[0][r];
-	shape = whatShape(al);
+	//Choice one random alien for shoot
+	r = rand() % AMOUNT_ALIEN_ROW;
+		
+	for(int i=LINES_ALIEN-1;i>=0;i--){	
 	
-	middle = COL/2;	
-	for(int i=ROW-1;i>=0;i--){
-		if(shape[i][middle]){
-			*x = i;
-			*y = middle;
-			break;
-		}	
+		rTemp = r + (AMOUNT_ALIEN_ROW)*i;
+
+		al = alien->vec[0][rTemp];
+		if(al->live == true){
+			shape = whatShape(al);
+	
+			middle = COL/2;	
+			for(int j=ROW-1;j>=0;j--){
+				if(shape[j][middle]){
+					*x = j;
+					*y = middle;
+					break;
+				}	
+			}
+			return;
+		}
 	}
 }
 
