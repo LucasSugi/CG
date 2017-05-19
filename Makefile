@@ -1,17 +1,20 @@
 EXECUTABLE = invaders
 
-OBJS =
+OBJS = alien.o bullet.o spaceShip.o
 
 COMPILER_FLAGS =
 LINKER_FLAGS = -lGL -lglut -lGLU
 
 all: $(EXECUTABLE)
 
-$(EXECUTABLE): main.c $(OBJS)
-	$(CC) -o $@ main.c $(COMPILER_FLAGS) $(LINKER_FLAGS)
+$(EXECUTABLE): main.cpp $(OBJS)
+	$(CXX) -o $@ $< $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS)
 
 %.o: %.c
 	$(CC) -c $< -o $@ $(COMPILER_FLAGS)
+
+%.o: %.cpp
+	$(CXX) -c $< -o $@ $(COMPILER_FLAGS)
 
 debug: COMPILER_FLAGS += -g -DDEBUG
 debug: clean
