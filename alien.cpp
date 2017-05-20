@@ -20,17 +20,22 @@ float INC_Y  = 0.1;
 //This variable defines how many aliens have per line
 int AMOUNT_ALIEN_ROW;
 
+//amount of type alien in row
+int N_ALIEN_TYPE_1 = 3;
+int N_ALIEN_TYPE_2 = 3;
+int N_ALIEN_TYPE_3 = 2;
+
 //This defines how lines of aliens have space invaders
-int LINES_ALIEN = 5;
+int LINES_ALIEN = N_ALIEN_TYPE_1 + N_ALIEN_TYPE_2 + N_ALIEN_TYPE_3;
 
 //This variable define how long is the movement of one alien in horizontal
-int TIME_MOVE_ALIEN = 1000;
+int TIME_MOVE_ALIEN = 100;
 
 //This variable define time for one shoot 
-int TIME_SHOOT_ALIEN = 3;
+int TIME_SHOOT_ALIEN = 2;
 
 //This variable defines the number of movement until one alien go down
-int TIME_MOVE_DOWN = 20;
+int TIME_MOVE_DOWN = 10;
 
 //This variable defines the amount of jump in horizontal and vertical
 float JUMP = 0.1;
@@ -109,15 +114,41 @@ int **readFile(const char *filename){
 }
 
 /*
+ * Create alien in row
+ */
+void createRowAlien(vector<char> *v){
+
+	int i,j;
+	float top,left;
+	ALIEN *al;
+
+	//initial position of the first alien
+	top = TOP - INC_Y;
+	left = LEFT + INC_X;
+
+	for(i=0;i<LINES_ALIEN;i++){
+		//alien per row
+		for(j=0;j<AMOUNT_ALIEN_ROW;j++){
+			al = (ALIEN*) malloc(sizeof(ALIEN));	
+			al->live = true;
+			al->type = v[0][i];
+			al->xAlien = left + j*JUMP;
+			al->yAlien = top;
+			alien->vec->push_back(al);
+		}
+		top -= JUMP;
+	}
+}
+
+/*
  * Initializa one struct that is responsible to control aliens
  */
 void createAlien(float left,float right,float bottom,float top,float xV,float yV,float Sx,float Sy,int nAlien){
 	
-	int i;
-	ALIEN *al;
 	
 	//Create struct
 	alien = (CONTROL_ALIEN*) malloc(sizeof(CONTROL_ALIEN));
+	alien->vec = new vector<ALIEN*>;
 
 	//initialize some variable
 	LEFT = left;
@@ -137,69 +168,26 @@ void createAlien(float left,float right,float bottom,float top,float xV,float yV
 	alien->shape2 = readFile("alien2");	
 	alien->shape3 = readFile("alien3");	
 	
-	alien->vec = new vector<ALIEN*>;
-	
-	//initial position of the first alien
-	top = top - INC_Y;
-	left = left + INC_X;
-		
-	//row 1
-	for(i=0;i<AMOUNT_ALIEN_ROW;i++){
-		al = (ALIEN*) malloc(sizeof(ALIEN));	
-		al->live = true;
-		al->type = '1';
-		al->xAlien = left + i*JUMP;
-		al->yAlien = top;
-		alien->vec->push_back(al);
-	}
-	
-	top = top - JUMP;
+	vector<char> *v = new vector<char>;
 
-	//row 2
-	for(i=0;i<AMOUNT_ALIEN_ROW;i++){
-		al = (ALIEN*) malloc(sizeof(ALIEN));	
-		al->live = true;
-		al->type = '1';
-		al->xAlien = left + i*JUMP;
-		al->yAlien = top;
-		alien->vec->push_back(al);
+	//Alien type 1
+	for(int i=0;i<N_ALIEN_TYPE_1;i++){
+		v->push_back('1');	
 	}
 
-	top = top - JUMP;
-
-	//row 3
-	for(i=0;i<AMOUNT_ALIEN_ROW;i++){
-		al = (ALIEN*) malloc(sizeof(ALIEN));	
-		al->live = true;
-		al->type = '2';
-		al->xAlien = left + i*JUMP;
-		al->yAlien = top;
-		alien->vec->push_back(al);
+	//Alien type 2
+	for(int i=0;i<N_ALIEN_TYPE_2;i++){
+		v->push_back('2');	
 	}
-	
-	top = top - JUMP;
 
-	//row 4
-	for(i=0;i<AMOUNT_ALIEN_ROW;i++){
-		al = (ALIEN*) malloc(sizeof(ALIEN));	
-		al->live = true;
-		al->type = '2';
-		al->xAlien = left + i*JUMP;
-		al->yAlien = top;
-		alien->vec->push_back(al);
-	}
-	
-	top = top - JUMP;
+	//Alien type 3
+	for(int i=0;i<N_ALIEN_TYPE_2;i++){
+		v->push_back('3');	
+	}	
 
-	//row 5
-	for(i=0;i<AMOUNT_ALIEN_ROW;i++){
-		al = (ALIEN*) malloc(sizeof(ALIEN));	
-		al->live = true;
-		al->type = '3';
-		al->xAlien = left + i*JUMP;
-		al->yAlien = top;
-		alien->vec->push_back(al);
-	}
+	createRowAlien(v);	
+
+	delete v;
 }
 
 /*
