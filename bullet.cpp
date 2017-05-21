@@ -93,7 +93,8 @@ void shotBullet(int value)
                 continue;
             }
 
-            if (it->xPos >= shipX - 0.05 && it->xPos <= (shipX + 0.05) && it->yPos >= -0.9 && it->yPos <= -0.9 + 0.14) {
+            if (it->xPos >= shipX - 0.05 && it->xPos <= (shipX + 0.05) &&
+                it->yPos >= -0.9 && it->yPos <= -0.9 + 0.14) {
                 playerWasHit();
                 bullet.erase(it);
                 it--;
