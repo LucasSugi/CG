@@ -1,5 +1,6 @@
 #include "alien.h"
 #include "bullet.h"
+#include "manager.h"
 #include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -118,7 +119,6 @@ int** readFile(const char* filename)
  */
 void createAlien(float left, float right, float bottom, float top, float xV, float yV, float Sx, float Sy, int nAlien)
 {
-
     int i;
     ALIEN* al;
 
@@ -272,17 +272,8 @@ bool alienVictory()
     for (i = alien->vec->size() - 1; i >= 0; i--) {
         al = alien->vec[0][i];
         if (al->live == true) {
-            shape = whatShape(al);
-            for (j = 0; j < ROW; j++) {
-                for (k = 0; k < COL; k++) {
-                    if (shape[j][k]) {
-                        if (((al->yAlien - j / 100.0) + JUMP_Y) < BOTTOM) {
-                            JUMP = 0;
-                            return true;
-                        }
-                    }
-                }
-            }
+			if (al->yAlien - 7 / 100.0 + JUMP_Y <= BOTTOM)
+				return true;
         }
     }
     return false;
@@ -293,7 +284,6 @@ bool alienVictory()
  */
 bool userWin()
 {
-
     int i;
     ALIEN* al;
 
@@ -309,28 +299,24 @@ bool userWin()
 /*
  * Verify if some alien was killed
  */
-void alienKilled()
+bool alienKilled(GLfloat x, GLfloat y)
 {
-    /*
 	int i,j,k;
 	ALIEN *al;
 	int **shape;
 
-	for(i=0;i<(int)alien->vec->size();i++){
+	for(i=0; i < (int)alien->vec->size(); i++){
 		al = alien->vec[0][i];
 		if(al->live == true){
-			shape = whatShape(al);
-			for(j=0;j<ROW;j++){
-				for(k=0;k<COL;k++){
-					if(shape[j][k]){
-						if( ((al->yAlien-j/100.0)+JUMP_Y) == y && ((al->xAlien-k/100.0)+JUMP_X) == x){
-							al->live = false;
-						}
-					}	
-				}
+			if (x >= (al->xAlien - 7/100.0 + JUMP_X) && x <= (al->xAlien + JUMP_X) &&
+				y >= (al->yAlien - 7/100.0 + JUMP_Y) && y <= (al->yAlien + JUMP_Y)) {
+				al->live = false;
+				return true;
 			}
 		}
-	}*/
+	}
+
+	return false;
 }
 
 /*
@@ -370,15 +356,19 @@ void alienShoot()
     }
 }
 
+extern int GAME_STATE;
+
 /*
  * Move alien in screen
  */
 void moveAlien(int value)
 {
-
     int i, j, k;
     ALIEN* al;
     int** shape;
+
+	if (GAME_STATE != GAMESTATE_GAME)
+		return;
 
     //Check where the alien should walk horizontally
     if (LEFT_RIGHT == false) {
@@ -399,7 +389,7 @@ void moveAlien(int value)
     }
 
     //verify if some alien was killed
-    alienKilled();
+    //alienKilled();
 
     for (i = 0; i < (int)alien->vec->size(); i++) {
         al = alien->vec[0][i];

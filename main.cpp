@@ -12,6 +12,8 @@ GLdouble windowLeft = -1.0f, windowRight = 1.0f, windowBottom = -1.0f, windowTop
 // Initial position of the spaceShip
 GLfloat shipPosX = 0.0f, shipPosY = 0.0f;
 
+extern int GAME_STATE;
+
 /**	Rendering Funcion	*/
 void draw()
 {
@@ -23,12 +25,17 @@ void draw()
     // Cleans the screen
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Draw the bullets on the screen
-    drawBullets();
-    drawShip();
-    drawAlien();
+	if (GAME_STATE == GAMESTATE_WON) {
+		drawWonScreen();
+	} else if (GAME_STATE == GAMESTATE_LOST) {
+		drawLostScreen();
+	} else if (GAME_STATE == GAMESTATE_GAME) {
+		drawBullets();
+		drawShip();
+		drawAlien();
 
-    drawLives();
+		drawLives();
+	}
 
     // Update the screen
     glutSwapBuffers();
@@ -99,9 +106,7 @@ int main(int argc, char* argv[])
     glutSpecialFunc(SpecialKeys);
     glutKeyboardFunc(Keyboard);
 
-    glutTimerFunc(10, moveAlien, 0);
-    glutTimerFunc(16, shotBullet, 1);
-    initializeParameters();
+	initGame();
 
     // Starts the processing and wait user interactions
     glutMainLoop();

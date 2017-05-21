@@ -1,8 +1,10 @@
 /*
  *  	Bullets - Controls the bullets moves
-*/
+ */
 
 #include "bullet.h"
+#include "alien.h"
+#include "manager.h"
 #include <stdio.h>
 
 struct bullet {
@@ -14,6 +16,7 @@ struct bullet {
 
 //
 extern GLfloat shipX, shipY;
+extern bool alienKilled(GLfloat, GLfloat);
 
 /**	Bullets	   */
 vector<BULLET> bullet;
@@ -67,11 +70,16 @@ bool checkUpBulletCollision(vector<BULLET>::iterator it)
     if (it->yPos < 0)
         return false;
 
+	return alienKilled(it->xPos, it->yPos);
 }
 
+extern int GAME_STATE;
 /**	Bullets Timer function	*/
 void shotBullet(int value)
 {
+	if (GAME_STATE != GAMESTATE_GAME)
+		return;
+
     GLfloat v = inc * value;
 
     // Moves the bullets
@@ -110,5 +118,6 @@ void shotBullet(int value)
     }
 
     glutPostRedisplay();
+
     glutTimerFunc(16, shotBullet, value);
 }

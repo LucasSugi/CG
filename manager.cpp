@@ -1,6 +1,10 @@
 #include "manager.h"
 
 int playerLives = 3;
+int GAME_STATE = GAMESTATE_GAME;
+
+extern bool alienVictory();
+extern bool userWin();
 
 void drawLives()
 {
@@ -19,17 +23,57 @@ void drawLives()
 
 void drawLostScreen()
 {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+
+	glColor3ub(255, 255, 255);
+	glRasterPos2f(0.0f, 0.0f);
+
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"You Lost!");
 }
 
-void drawWinScreen()
+void drawWonScreen()
 {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glColor3ub(255, 255, 255);
+	glRasterPos2f(0.0f, 0.0f);
+
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"You Won!");
 }
+
 
 void playerWasHit()
 {
     playerLives--;
 
     if (playerLives <= 0) {
-        printf("PLAYER LOST!!!!\n");
+		GAME_STATE = GAMESTATE_LOST;
     }
+}
+
+void startVerifiers(int value)
+{
+	if (GAME_STATE != GAMESTATE_GAME)
+		return;
+
+	if (alienVictory())
+		GAME_STATE = GAMESTATE_LOST;
+
+	if (userWin())
+		GAME_STATE = GAMESTATE_WON;
+
+	glutTimerFunc(250, startVerifiers, 1);
+}
+
+extern void moveAlien(int);
+extern void shotBullet(int);
+extern void initializeParameters(void);
+
+void initGame()
+{
+	playerLives = 3;
+    glutTimerFunc(10, moveAlien, 0);
+    glutTimerFunc(16, shotBullet, 1);
+    initializeParameters();
 }

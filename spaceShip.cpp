@@ -1,6 +1,7 @@
 #include "spaceShip.h"
 #include "alien.h"
 #include "bullet.h"
+#include "manager.h"
 
 GLfloat shipX = 0, shipY = 0, cannonPosX, cannonPosY;
 
@@ -16,21 +17,32 @@ void setInitialSpaceShipPosition(GLfloat x, GLfloat y)
     cannonPosY = -0.75f;
 }
 
+extern int GAME_STATE;
+
 /*
 Function will read alphanumeric keys of the keyboard
 */
 void Keyboard(unsigned char key, int x, int y)
 {
-    //Shot missile
-    if (key == SPACE) {
-        createBullet(cannonPosX, cannonPosY, UP);
-    }
+	if (GAME_STATE == GAMESTATE_GAME) {
+		//Shot missile
+		if (key == SPACE) {
+			createBullet(cannonPosX, cannonPosY, UP);
+		}
+	} else {
+		if (key == SPACE) {
+			GAME_STATE = GAMESTATE_GAME;
+			destroyAlien();
+			initGame();
+			glutPostRedisplay();
+		}
+	}
 
-    //Leave game
-    if (key == ESC) {
-        destroyAlien();
-        exit(0);
-    }
+	//Leave game
+	if (key == ESC) {
+		destroyAlien();
+		exit(0);
+	}
 }
 
 /*
@@ -38,17 +50,19 @@ Function will read special keys (arrow keys), that will move the spaceship
 */
 void SpecialKeys(int key, int x, int y)
 {
-    if (key == GLUT_KEY_LEFT) {
-        if (shipX > -0.90)
-            shipX -= 0.03;
-        cannonPosX = shipX;
-    }
+	if (GAME_STATE == GAMESTATE_GAME) {
+		if (key == GLUT_KEY_LEFT) {
+			if (shipX > -0.90)
+				shipX -= 0.03;
+			cannonPosX = shipX;
+		}
 
-    if (key == GLUT_KEY_RIGHT) {
-        if (shipX < 0.90)
-            shipX += 0.03;
-        cannonPosX = shipX;
-    }
+		if (key == GLUT_KEY_RIGHT) {
+			if (shipX < 0.90)
+				shipX += 0.03;
+			cannonPosX = shipX;
+		}
+	}
 
     glutPostRedisplay();
 }
