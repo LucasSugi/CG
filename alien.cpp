@@ -272,8 +272,8 @@ bool alienVictory()
     for (i = alien->vec->size() - 1; i >= 0; i--) {
         al = alien->vec[0][i];
         if (al->live == true) {
-			if (al->yAlien - 7 / 100.0 + JUMP_Y <= BOTTOM)
-				return true;
+            if (al->yAlien - 7 / 100.0 + JUMP_Y <= BOTTOM)
+                return true;
         }
     }
     return false;
@@ -301,22 +301,21 @@ bool userWin()
  */
 bool alienKilled(GLfloat x, GLfloat y)
 {
-	int i,j,k;
-	ALIEN *al;
-	int **shape;
+    int i, j, k;
+    ALIEN* al;
+    int** shape;
 
-	for(i=0; i < (int)alien->vec->size(); i++){
-		al = alien->vec[0][i];
-		if(al->live == true){
-			if (x >= (al->xAlien - 7/100.0 + JUMP_X) && x <= (al->xAlien + JUMP_X) &&
-				y >= (al->yAlien - 7/100.0 + JUMP_Y) && y <= (al->yAlien + JUMP_Y)) {
-				al->live = false;
-				return true;
-			}
-		}
-	}
+    for (i = 0; i < (int)alien->vec->size(); i++) {
+        al = alien->vec[0][i];
+        if (al->live == true) {
+            if (x >= (al->xAlien - 7 / 100.0 + JUMP_X) && x <= (al->xAlien + JUMP_X) && y >= (al->yAlien - 7 / 100.0 + JUMP_Y) && y <= (al->yAlien + JUMP_Y)) {
+                al->live = false;
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /*
@@ -367,8 +366,8 @@ void moveAlien(int value)
     ALIEN* al;
     int** shape;
 
-	if (GAME_STATE != GAMESTATE_GAME)
-		return;
+    if (GAME_STATE != GAMESTATE_GAME)
+        return;
 
     //Check where the alien should walk horizontally
     if (LEFT_RIGHT == false) {

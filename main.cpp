@@ -25,17 +25,17 @@ void draw()
     // Cleans the screen
     glClear(GL_COLOR_BUFFER_BIT);
 
-	if (GAME_STATE == GAMESTATE_WON) {
-		drawWonScreen();
-	} else if (GAME_STATE == GAMESTATE_LOST) {
-		drawLostScreen();
-	} else if (GAME_STATE == GAMESTATE_GAME) {
-		drawBullets();
-		drawShip();
-		drawAlien();
+    if (GAME_STATE == GAMESTATE_WON) {
+        drawWonScreen();
+    } else if (GAME_STATE == GAMESTATE_LOST) {
+        drawLostScreen();
+    } else if (GAME_STATE == GAMESTATE_GAME) {
+        drawBullets();
+        drawShip();
+        drawAlien();
 
-		drawLives();
-	}
+        drawLives();
+    }
 
     // Update the screen
     glutSwapBuffers();
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
     glutSpecialFunc(SpecialKeys);
     glutKeyboardFunc(Keyboard);
 
-	initGame();
+    initGame();
 
     // Starts the processing and wait user interactions
     glutMainLoop();

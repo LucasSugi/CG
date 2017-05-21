@@ -70,15 +70,15 @@ bool checkUpBulletCollision(vector<BULLET>::iterator it)
     if (it->yPos < 0)
         return false;
 
-	return alienKilled(it->xPos, it->yPos);
+    return alienKilled(it->xPos, it->yPos);
 }
 
 extern int GAME_STATE;
 /**	Bullets Timer function	*/
 void shotBullet(int value)
 {
-	if (GAME_STATE != GAMESTATE_GAME)
-		return;
+    if (GAME_STATE != GAMESTATE_GAME)
+        return;
 
     GLfloat v = inc * value;
 
