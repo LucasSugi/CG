@@ -1,5 +1,6 @@
 #include "alien.h"
 #include "bullet.h"
+#include "manager.h"
 #include "spaceShip.h"
 
 // Controls the window size
@@ -14,7 +15,6 @@ GLfloat shipPosX = 0.0f, shipPosY = 0.0f;
 /**	Rendering Funcion	*/
 void draw()
 {
-
     //Changes to the
     glMatrixMode(GL_MODELVIEW);
     //Initialize the transformations matrix
@@ -27,6 +27,8 @@ void draw()
     drawBullets();
     drawShip();
     drawAlien();
+
+    drawLives();
 
     // Update the screen
     glutSwapBuffers();
@@ -56,7 +58,6 @@ void reshapeWindow(int width, int height)
 /**	Boot Funcion	*/
 void initializeParameters()
 {
-
     // Sets the Clear Color to black
     glClearColor(0.0f, 0.16f, 0.16f, 0.0f);
 
@@ -79,7 +80,6 @@ void initializeParameters()
 /**	Main Function	*/
 int main(int argc, char* argv[])
 {
-
     // Initialize
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
     glutKeyboardFunc(Keyboard);
 
     glutTimerFunc(10, moveAlien, 0);
-	glutTimerFunc(10, shotBullet, 1);
+    glutTimerFunc(16, shotBullet, 1);
     initializeParameters();
 
     // Starts the processing and wait user interactions

@@ -4,6 +4,8 @@
 #include <GL/glut.h>
 #include <vector>
 
+#include "manager.h"
+
 #define UP 0
 #define DOWN 1
 

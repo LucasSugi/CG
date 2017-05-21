@@ -362,7 +362,6 @@ void alienShoot()
                 for (int j = ROW - 1; j >= 0; j--) {
                     if (shape[j][middle]) {
                         createBullet((al->xAlien - j / 100.0) + JUMP_X, (al->yAlien - middle / 100.0) + JUMP_Y, DOWN);
-                        glutTimerFunc(10, shotBullet, 1);
                         return;
                     }
                 }

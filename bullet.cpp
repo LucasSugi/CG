@@ -12,6 +12,9 @@ struct bullet {
     bool visible;
 };
 
+//
+extern GLfloat shipX, shipY;
+
 /**	Bullets	   */
 vector<BULLET> bullet;
 GLfloat inc;
@@ -20,7 +23,7 @@ GLdouble top, bottom;
 /**	Sets the bullet increment	*/
 void setBulletInc(GLsizei height)
 {
-    inc = (GLfloat)2 / height;
+    inc = (GLfloat)7 / height;
 }
 
 /**	Sets window dimensions	*/
@@ -59,33 +62,53 @@ void createBullet(GLfloat x, GLfloat y, GLint direction)
     bullet.push_back(b);
 }
 
+bool checkUpBulletCollision(vector<BULLET>::iterator it)
+{
+    if (it->yPos < 0)
+        return false;
+
+}
+
 /**	Bullets Timer function	*/
 void shotBullet(int value)
 {
     GLfloat v = inc * value;
 
-
     // Moves the bullets
-    if (!bullet.empty()) {
-        for (vector<BULLET>::iterator it = bullet.begin(); it != bullet.end(); it++) {
-            if (it->direction == DOWN) {
-                it->yPos -= v;
-                if (it->yPos <= bottom) {
-                    it->visible = false;
-					bullet.erase(it);
-					it--;
-                }
-            } else if (it->direction == UP) {
-                it->yPos += v;
-                if (it->yPos >= top) {
-                    it->visible = false;
-					bullet.erase(it);
-					it--;
-                }
+    for (vector<BULLET>::iterator it = bullet.begin(); it != bullet.end(); it++) {
+        if (it->direction == DOWN) {
+            it->yPos -= v;
+            if (it->yPos <= bottom) {
+                it->visible = false;
+                bullet.erase(it);
+                it--;
+                continue;
+            }
+
+            if (it->xPos >= shipX - 0.05 && it->xPos <= (shipX + 0.05) && it->yPos >= -0.9 && it->yPos <= -0.9 + 0.14) {
+                playerWasHit();
+                bullet.erase(it);
+                it--;
+                continue;
+            }
+
+        } else if (it->direction == UP) {
+            it->yPos += v;
+            if (it->yPos >= top) {
+                it->visible = false;
+                bullet.erase(it);
+                it--;
+                continue;
+            }
+
+            if (checkUpBulletCollision(it)) {
+                bullet.erase(it);
+                it--;
+                continue;
             }
         }
     }
 
     glutPostRedisplay();
-    glutTimerFunc(10, shotBullet, value);
+    glutTimerFunc(16, shotBullet, value);
 }

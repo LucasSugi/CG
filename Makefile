@@ -1,6 +1,6 @@
 EXECUTABLE = invaders
 
-OBJS = alien.o bullet.o spaceShip.o
+OBJS = alien.o bullet.o spaceShip.o manager.o
 
 COMPILER_FLAGS =
 LINKER_FLAGS = -lGL -lglut -lGLU
@@ -24,7 +24,7 @@ clean:
 	rm -rf *.o
 	rm -rf $(EXECUTABLE)
 
-run:
+run: clean all
 	./$(EXECUTABLE)
 
 .PHONY: all clean debug run
