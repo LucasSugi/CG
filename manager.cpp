@@ -27,19 +27,20 @@ void drawLostScreen()
 	glMatrixMode(GL_MODELVIEW);
 
 	glColor3ub(255, 255, 255);
-	glRasterPos2f(0.0f, 0.0f);
+	glRasterPos2f(-0.4f, 0.0f);
 
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"You Lost!");
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"You Lost! (SPACE to play again)");
 }
 
 void drawWonScreen()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-	glColor3ub(255, 255, 255);
-	glRasterPos2f(0.0f, 0.0f);
 
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"You Won!");
+	glColor3ub(255, 255, 255);
+	glRasterPos2f(-0.4f, 0.0f);
+
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"You Won! (SPACE to play again)");
 }
 
 
@@ -57,11 +58,15 @@ void startVerifiers(int value)
 	if (GAME_STATE != GAMESTATE_GAME)
 		return;
 
-	if (alienVictory())
+	if (alienVictory()) {
 		GAME_STATE = GAMESTATE_LOST;
+		glutPostRedisplay();
+	}
 
-	if (userWin())
+	if (userWin()) {
 		GAME_STATE = GAMESTATE_WON;
+		glutPostRedisplay();
+	}
 
 	glutTimerFunc(250, startVerifiers, 1);
 }
@@ -76,4 +81,5 @@ void initGame()
     glutTimerFunc(10, moveAlien, 0);
     glutTimerFunc(16, shotBullet, 1);
     initializeParameters();
+	startVerifiers(1);
 }
